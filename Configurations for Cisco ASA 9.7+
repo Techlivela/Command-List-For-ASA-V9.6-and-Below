@@ -1,0 +1,113 @@
+interface Management0/0
+ no shutdown
+ exit
+
+interface GigabitEthernet0/0
+ nameif outside
+ security-level 0
+ ip address dhcp setroute
+ no shutdown
+ exit
+
+interface bvi 1
+ nameif inside
+ security-level 100
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+ exit
+
+interface GigabitEthernet0/1
+ nameif inside_1
+ security-level 100
+ bridge-group 1
+ no shutdown
+ exit
+
+interface GigabitEthernet0/2
+ nameif inside_2
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+interface GigabitEthernet0/3
+ nameif inside_3
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+interface GigabitEthernet0/4
+ nameif inside_4
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+interface GigabitEthernet0/5
+ nameif inside_5
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+interface GigabitEthernet0/6
+ nameif inside_6
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+interface GigabitEthernet0/7
+ nameif inside_7
+ security-level 100
+ no shutdown
+ bridge-group 1
+ exit
+
+object network obj_any1
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_1,outside) dynamic interface
+
+object network obj_any2
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_2,outside) dynamic interface
+
+object network obj_any3
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_3,outside) dynamic interface
+
+object network obj_any4
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_4,outside) dynamic interface
+
+object network obj_any5
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_5,outside) dynamic interface
+
+object network obj_any6
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_6,outside) dynamic interface
+
+object network obj_any7
+ subnet 0.0.0.0 0.0.0.0
+ nat (inside_7,outside) dynamic interface
+
+same-security-traffic permit inter-interface
+
+http server enable
+http 192.168.1.0 255.255.255.0 inside_1
+http 192.168.1.0 255.255.255.0 inside_2
+http 192.168.1.0 255.255.255.0 inside_3
+http 192.168.1.0 255.255.255.0 inside_4
+http 192.168.1.0 255.255.255.0 inside_5
+http 192.168.1.0 255.255.255.0 inside_6
+http 192.168.1.0 255.255.255.0 inside_7
+
+dhcpd auto_config outside
+dhcpd address 192.168.1.5-192.168.1.254 inside
+dhcpd enable inside
+
+logging asdm informational
+
+end
